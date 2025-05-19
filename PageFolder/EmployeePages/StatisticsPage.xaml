@@ -1,0 +1,214 @@
+<Page x:Class="UPZhukov.PageFolder.EmployeePages.StatisticsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+      mc:Ignorable="d" 
+      d:DesignHeight="700" d:DesignWidth="1000"
+      Title="Статистика обращений">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Верхняя панель -->
+        <Border Grid.Row="0" 
+                Background="#F5F5F5"
+                BorderBrush="#E0E0E0"
+                BorderThickness="0,0,0,1"
+                Padding="16">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="BackBtn"
+                        Click="BackBtn_Click"
+                        Style="{StaticResource MainButtonStyle}"
+                        Width="40"
+                        Height="40"
+                        Margin="0,0,16,0"
+                        ToolTip="Вернуться назад">
+                    <TextBlock Text="&#xE72B;"
+                             FontFamily="Segoe MDL2 Assets"/>
+                </Button>
+
+                <TextBlock Grid.Column="1"
+                         Text="Статистика обращений"
+                         FontSize="24"
+                         FontWeight="Light"
+                         VerticalAlignment="Center"/>
+
+                <StackPanel Grid.Column="2" 
+                          Orientation="Horizontal">
+                    <ComboBox x:Name="PeriodCb"
+                             Width="150"
+                             Height="32"
+                             Margin="0,0,8,0"
+                             SelectionChanged="PeriodCb_SelectionChanged">
+                        <ComboBoxItem Content="За день" IsSelected="True"/>
+                        <ComboBoxItem Content="За неделю"/>
+                        <ComboBoxItem Content="За месяц"/>
+                        <ComboBoxItem Content="За год"/>
+                    </ComboBox>
+
+                    <Button x:Name="RefreshBtn"
+                            Click="RefreshBtn_Click"
+                            Style="{StaticResource MainButtonStyle}"
+                            Width="40"
+                            ToolTip="Обновить">
+                        <TextBlock Text="&#xE72C;"
+                                 FontFamily="Segoe MDL2 Assets"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Графики -->
+        <ScrollViewer Grid.Row="1" 
+                     VerticalScrollBarVisibility="Auto">
+            <Grid Margin="16">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Круговые диаграммы -->
+                <Grid Grid.Row="0" Margin="0,0,0,16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- Типы обращений -->
+                    <Border Grid.Column="0" 
+                            Background="White" 
+                            BorderBrush="#E0E0E0" 
+                            BorderThickness="1" 
+                            Margin="0,0,8,0"
+                            Padding="16">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Типы обращений" 
+                                     FontSize="18" 
+                                     FontWeight="Light" 
+                                     Margin="0,0,0,16"/>
+                            <lvc:PieChart Grid.Row="1" 
+                                         Series="{Binding TypeSeries}" 
+                                         LegendLocation="Bottom"
+                                         DataClick="TypeChart_DataClick"
+                                         Hoverable="True"
+                                         DataTooltip="{x:Null}"
+                                         DisableAnimations="True"
+                                         MinHeight="400"/>
+                        </Grid>
+                    </Border>
+                    
+                    <!-- Статусы обращений -->
+                    <Border Grid.Column="1" 
+                            Background="White" 
+                            BorderBrush="#E0E0E0" 
+                            BorderThickness="1" 
+                            Margin="8,0,0,0"
+                            Padding="16">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Статусы обращений" 
+                                     FontSize="18" 
+                                     FontWeight="Light" 
+                                     Margin="0,0,0,16"/>
+                            <lvc:PieChart Grid.Row="1" 
+                                         Series="{Binding StatusSeries}" 
+                                         LegendLocation="Bottom"
+                                         DataClick="StatusChart_DataClick"
+                                         Hoverable="True"
+                                         DataTooltip="{x:Null}"
+                                         DisableAnimations="True"
+                                         MinHeight="400"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <!-- График динамики обращений -->
+                <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                        Background="White"
+                        BorderBrush="#E0E0E0"
+                        BorderThickness="1"
+                        Margin="0,0,0,16"
+                        Padding="16">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Динамика обращений"
+                                 FontSize="16"
+                                 Margin="0,0,0,16"/>
+
+                        <lvc:CartesianChart Grid.Row="1"
+                                          Series="{Binding DynamicSeries}">
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis Title="Дата" 
+                                         Labels="{Binding DateLabels}"/>
+                            </lvc:CartesianChart.AxisX>
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis Title="Количество" 
+                                         LabelFormatter="{Binding ValueFormatter}"/>
+                            </lvc:CartesianChart.AxisY>
+                        </lvc:CartesianChart>
+                    </Grid>
+                </Border>
+
+                <!-- Таблица статистики -->
+                <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                        Background="White"
+                        BorderBrush="#E0E0E0"
+                        BorderThickness="1"
+                        Padding="16">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Общая статистика"
+                                 FontSize="16"
+                                 Margin="0,0,0,16"/>
+
+                        <DataGrid Grid.Row="1"
+                                 x:Name="StatisticsGrid"
+                                 AutoGenerateColumns="False"
+                                 IsReadOnly="True"
+                                 HeadersVisibility="Column">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Показатель" 
+                                                  Binding="{Binding Name}"
+                                                  Width="*"/>
+                                <DataGridTextColumn Header="Значение" 
+                                                  Binding="{Binding Value}"
+                                                  Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </Border>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Page> 

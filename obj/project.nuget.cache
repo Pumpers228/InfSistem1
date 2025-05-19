@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "EfC0xj3fdjY=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\dadar\\Documents\\Progect\\MySite\\UPZhukov\\UPZhukov\\UPZhukov.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\dadar\\.nuget\\packages\\livecharts\\0.9.7\\livecharts.0.9.7.nupkg.sha512",
+    "C:\\Users\\dadar\\.nuget\\packages\\livecharts.wpf\\0.9.7\\livecharts.wpf.0.9.7.nupkg.sha512",
+    "C:\\Users\\dadar\\.nuget\\packages\\system.data.sqlclient\\4.8.6\\system.data.sqlclient.4.8.6.nupkg.sha512"
+  ],
+  "logs": []
+}
